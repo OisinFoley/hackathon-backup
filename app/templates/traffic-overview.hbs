@@ -1,0 +1,67 @@
+
+
+<div class="container">
+  <h2>Traffic Overview</h2>
+
+  {{!--
+
+  {{#list-filter
+    filter=(action 'filterBySrcIp')
+  as |srcIps|}}
+
+    <ul class="results">
+      {{#each rentals as |rentalUnit|}}
+        <li>{{rental-listing rental=rentalUnit}}</li>
+      {{/each}}
+    </ul>
+
+
+
+  --}}
+
+<br><br>
+
+  <p>Overview of the traffic we've seen</p>
+  <div class="table-responsive">
+{{!--
+  {{#list-filter
+    filter=(action 'filterBySrcIp')
+  as |srcIps|}}
+--}}<div class="network-flow-list">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>DMAC</th>
+          <th>SMAC</th>
+          <th>TYPE</th>
+          <th>SIP</th>
+          <th>DIP</th>
+        </tr>
+        </thead>
+        <tbody>
+       {{#each tableData as |data|}}
+          <tr>
+            <th>{{data.ID}}</th>
+            <th>{{data.DMAC}}</th>
+            <th>{{data.SMAC}}</th>
+            <th>{{data.TYPE}}</th>
+            <th>{{data.SIP}}</th>
+            <th>{{data.DIP}}</th>
+          </tr>
+        {{/each}}
+  {{!-- {{network-table data=tableData}} --}}
+        </tbody>
+      </table>
+    </div> <br><br><br><br><br><br><br><br><br><br>
+{{!--  {{/list-filter}} --}}
+    <button class="btn btn-success">test btn</button>
+
+    <div class="alert-ticker">
+      alerts area
+      {{alerts}}
+    </div>
+
+
+  </div>
+</div>

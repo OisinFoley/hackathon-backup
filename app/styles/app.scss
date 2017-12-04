@@ -1,0 +1,40 @@
+@import 'bootstrap';
+
+body {
+  background: darkseagreen;
+}
+
+.alert-ticker{
+  background:firebrick;
+  color:whitesmoke;
+}
+
+.network-flow-list{
+  height:70vh;
+  overflow-y: scroll;
+  padding:0.7vw;
+}
+
+/*the thumb is the vertically moving part of scrollbar,
+  which this controls the display of*/
+.network-flow-list::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: #E9ECF5;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+/*the track is what the thumb is held inside,
+  this controls rendering of the scrollbar-track*/
+.network-flow-list::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  margin-bottom:0.7vh;
+  margin-top:1.7vh;
+  background: gray;
+}
+
+.network-flow-list::-webkit-scrollbar {
+  width: 12px;
+}

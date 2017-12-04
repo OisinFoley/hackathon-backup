@@ -1,7 +1,40 @@
 
 
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        {{!--<li><a href="#" onclick={{clicked}}>Netflow Records</a></li>--}}
+        <li><a href="#" onclick={{action 'updateView' 'netflowRecords'}}>Netflow Records</a></li>
+        <li><a href="#" onclick={{action 'updateView' 'dataVisualisation'}}>Data Visualisation</a></li>
+        <li><a href="#" onclick={{action 'updateView' 'alertHistory'}}>Alert History</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
 <div class="container">
   <h2>Traffic Overview</h2>
+
+
+
+{{#if selectedAlertHistory }}
+  {{alert-history alertHistory=alertHistory}}
+{{/if}}
+
 
   {{!--
 
@@ -21,47 +54,43 @@
 
 <br><br>
 
-  <p>Overview of the traffic we've seen</p>
-  <div class="table-responsive">
-{{!--
-  {{#list-filter
-    filter=(action 'filterBySrcIp')
-  as |srcIps|}}
---}}<div class="network-flow-list">
-      <table class="table">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>DMAC</th>
-          <th>SMAC</th>
-          <th>TYPE</th>
-          <th>SIP</th>
-          <th>DIP</th>
-        </tr>
-        </thead>
-        <tbody>
-       {{#each tableData as |data|}}
-          <tr>
-            <th>{{data.ID}}</th>
-            <th>{{data.DMAC}}</th>
-            <th>{{data.SMAC}}</th>
-            <th>{{data.TYPE}}</th>
-            <th>{{data.SIP}}</th>
-            <th>{{data.DIP}}</th>
-          </tr>
-        {{/each}}
-  {{!-- {{network-table data=tableData}} --}}
-        </tbody>
-      </table>
-    </div> <br><br><br><br><br><br><br><br><br><br>
-{{!--  {{/list-filter}} --}}
-    <button class="btn btn-success">test btn</button>
+{{#if selectedNetflowRecords}}
 
-    <div class="alert-ticker">
-      alerts area
-      {{alerts}}
+    <p>Overview of the traffic we've seen</p>
+    <div class="table-responsive">
+  {{!--
+    {{#list-filter
+      filter=(action 'filterBySrcIp')
+    as |srcIps|}}
+  --}}
+
+      {{netflow-records tableHeadings=tableHeadings tableData=tableData}}
+
+       <br><br><br><br><br><br><br><br><br><br>
+  {{!--  {{/list-filter}} --}}
+      <button class="btn btn-success">test btn</button>
+
+      <div class="alert-ticker">
+        alerts area
+        {{alerts}}
+      </div>
+      <br><br><br><br>
+
     </div>
 
 
+
+{{/if}}
+
+</div>
+
+<div class="ticker-wrap">
+  <div class="ticker">
+    {{#each alerts as |alert|}}
+      <div class="ticker__item">
+        {{alert.warningTitle}} | {{alert.severity}}
+        {{!-- <p class="btn btn-primary">{{alert.severity}}</p> --}}
+      </div>
+    {{/each}}
   </div>
 </div>

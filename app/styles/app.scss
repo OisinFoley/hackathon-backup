@@ -9,6 +9,107 @@ body {
   color:whitesmoke;
 }
 
+
+$duration: 10s;
+
+@-webkit-keyframes ticker {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+
+  100% {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes ticker {
+  0% {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    visibility: visible;
+  }
+
+  100% {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.ticker-wrap {
+
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  height: 4rem;
+  background-color: rgba(#000, 0.9);
+  //firebrick
+  padding-left: 100%;  // offset items to begin
+
+}
+
+.ticker {
+
+  display: inline-block;
+  height: 4rem;
+  line-height: 4rem;
+  white-space: nowrap; // display items in a line
+  padding-right: 100%; // ensure items go before animations repeat (taken from parent due to inline-block)
+
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-name: ticker;
+  animation-name: ticker;
+  -webkit-animation-duration: $duration;
+  animation-duration: $duration;
+
+  &__item {
+
+    display: inline-block;
+
+    padding: 0 2rem;
+    font-size: 2rem;
+    color: white;
+
+  }
+
+}
+
+
+
+//hover over navigation togglers
+/* The fast way */
+.make-it-fast {
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Pre-render the bigger shadow, but hide it */
+.make-it-fast::after {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Transition to showing the bigger shadow on hover */
+.make-it-fast:hover::after {
+  opacity: 1;
+}
+
+
+
+
+body { padding-bottom: 5rem; }
+h1,h2,p {padding: 0 5%;}
+
+
+
+
+
 .network-flow-list{
   height:70vh;
   overflow-y: scroll;

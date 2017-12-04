@@ -1,0 +1,17 @@
+<div>
+  {{#each alertHistory as |alert|}}
+    <div class="col-lg-7">
+      {{alert.warningTitle}}
+    </div>
+
+    <div class="col-lg-3">
+      {{alert.timestamp}}
+    </div>
+
+    <div class="col-lg-2">
+      {{alert.severity}}
+    </div>
+
+    <hr>
+  {{/each}}
+</div>

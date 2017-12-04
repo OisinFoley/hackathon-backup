@@ -1,17 +1,39 @@
-<div>
-  {{#each alertHistory as |alert|}}
-    <div class="col-lg-7">
-      {{alert.warningTitle}}
-    </div>
+<div class="table-flow-list">
+  <table class="table">
+    <thead>
+    <tr>
+      {{#each alertHeading as |heading|}}
+        <th>{{heading}}</th>
+      {{/each}}
+    </tr>
+    </thead>
+    <tbody>
 
-    <div class="col-lg-3">
-      {{alert.timestamp}}
-    </div>
+    {{#each alertHistory as |alert|}}
+     <tr>
+      <th>
+      <!--<div class="col-lg-7">-->
+        {{alert.warningTitle}}
+      <!--</div>-->
+      </th>
 
-    <div class="col-lg-2">
-      {{alert.severity}}
-    </div>
+      <th>
+        <!--<div class="col-lg-3">-->
+          {{alert.timestamp}}
+        <!--</div>-->
+      </th>
 
-    <hr>
-  {{/each}}
+      <th>
+        <!--<div class="col-lg-2">-->
+          {{alert.severity}}
+        <!--</div>-->
+      </th>
+
+     </tr>
+    {{/each}}
+    </tbody>
+  </table>
 </div>
+
+
+

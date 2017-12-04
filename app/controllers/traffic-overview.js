@@ -3,54 +3,16 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   dataSourceIps: ['10.101.108.156'],
   netflowService: Ember.inject.service('netflow-loader'),
-  tableHeadings:['ID','DMAC','SMAC','TYPE','SIP','DIP'],
-  dummydata: [
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:22, DIP:6},
-    {ID:1, DMAC:2, SMAC:3, TYPE:4, SIP:5, DIP:6}
-
-    ],
+  netflowHeadings:['DIR','PORT','SRC','DST','TYPE','SPORT','DPORT'],
+  alertHeading:['Alert Message', 'Timestamp', 'Severity'],
   tableData: null,
   alerts:null,
 
 
   init() {
     this._super(...arguments);
-    this.send('initialiseTable');
-    this.send('filterBySrcIp',22);
+    // this.send('initialiseTable');
+   // this.send('filterBySrcIp',22);
     this.send('initDummyAlerts');
     this.send('initAlertHistory');
     this.send('testService');
@@ -62,18 +24,51 @@ export default Ember.Controller.extend({
       //alert('calling your service');
 
       // this.get('netflowService').forEach(function (data) {
+
       this.get('netflowService').getNetflow('10.101.108.156').then((someData) => {
-        alert("hiiii");
+        //alert(JSON.stringify(someData[0]));
+        //
+        //this.set('tableData',someData);
+        //
+        // console.log(`response area:: ${someData.hgetall[0].value}`);
+
+        let parsedData = [];
+
+        for(let i=0;i<10;i++){
+          //parsedData.push(someData[i]);
+          let flowObject = {};
+          flowObject.frameDir = someData[i].frameDir;
+          flowObject.framePort = someData[i].framePort;
+          if(someData[i].frameEthType != '0x800'){
+            flowObject.src = someData[i].frameSMAC;
+            flowObject.dst = someData[i].frameDMAC;
+            flowObject.type = someData[i].frameEthType;
+          } else {
+            flowObject.src = someData[i].frameSIP;
+            flowObject.dst = someData[i].frameDIP;
+            flowObject.type = someData[i].frameProto;
+          }
+          flowObject.frameSPORT = someData[i].frameSPORT;
+          flowObject.frameDPORT = someData[i].frameDPORT;
+
+          parsedData.push(flowObject);
+
+        };
+
+        this.set('tableData',parsedData);
+
+
+
+        //alert(parsedData.length);
+
+        // parsedData.push(someData[0]);
+        // parsedData.push(someData[1]);
+        // parsedData.push(someData[2]);
+
+        //alert(JSON.stringify(parsedData));
+
       });
-        //.forEach(function (data) {
 
-        //'10.101.108.156'
-
-
-        // _this.get('projectsService').getProjects(`${Url}`).then((json) => {
-        //   _this.set(`dash${Url}Data`, json);
-        // });
-      //});
     },
     updateView(param){
 
@@ -102,11 +97,11 @@ export default Ember.Controller.extend({
       }
     },
 
-    initialiseTable(){
-      let dummydata = this.get('dummydata');
-
-      this.set('tableData',dummydata);
-    },
+    // initialiseTable(){
+    //   let dummydata = this.get('dummydata');
+    //
+    //   this.set('tableData',dummydata);
+    // },
     initDummyAlerts(){
       let alerts = [{
         warningTitle:"Traffic higher than usual across port 443", timestamp: "04-Dec-2017 11:21" , severity:'High'
@@ -161,18 +156,18 @@ export default Ember.Controller.extend({
 
         let filteredList = [];
 
-        this.get('dummydata').forEach(function (item, param) {
-          //alert(item.SIP);
-          // if(item.SIP == param) filteredList.push(item);
-
-          // alert(typeof(item.SIP)); //returns NUMBER
-          // alert(typeof(param)); //returns NUMBER
-
-          //if(item.SIP == param) filteredList.push(item); //these are equal, but filteredList is not being populated
-          if(item.SIP == 22) filteredList.push(item);
-
-
-        });
+        // this.get('dummydata').forEach(function (item, param) {
+        //   //alert(item.SIP);
+        //   // if(item.SIP == param) filteredList.push(item);
+        //
+        //   // alert(typeof(item.SIP)); //returns NUMBER
+        //   // alert(typeof(param)); //returns NUMBER
+        //
+        //   //if(item.SIP == param) filteredList.push(item); //these are equal, but filteredList is not being populated
+        //   if(item.SIP == 22) filteredList.push(item);
+        //
+        //
+        // });
 
         this.set('tableData', filteredList);
 

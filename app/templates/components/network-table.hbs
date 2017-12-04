@@ -1,11 +1,18 @@
 
   {{#each data as |data|}}
     <tr>
-      <th>{{data.ID}}</th>
-      <th>{{data.DMAC}}</th>
-      <th>{{data.SMAC}}</th>
-      <th>{{data.TYPE}}</th>
-      <th>{{data.SIP}}</th>
-      <th>{{data.DIP}}</th>
+      <th>{{data.frameDir}}</th>
+      <th>{{data.framePort}}</th>
+
+<!--src port or src mac-->
+      <th>{{data.src}}</th>
+      <th>{{data.dst}}</th>
+
+
+      <th>{{data.type}}</th>
+      <!--or else frameProto -->
+
+      <th>{{data.frameSPORT}}</th>
+      <th>{{data.frameDPORT}}</th>
     </tr>
   {{/each}}
